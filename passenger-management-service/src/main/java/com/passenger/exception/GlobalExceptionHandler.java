@@ -26,5 +26,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ResponseEntity<String> responseEntity = new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
 		return responseEntity;
 	}
+	
+	@ExceptionHandler(value = PhoneNumberAlreadyExistingException.class)
+	public ResponseEntity<String> handlePhoneNumberAlreadyExistingException(Exception exception) {
+		ResponseEntity<String> responseEntity = new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+		return responseEntity;
+	}
 
 }

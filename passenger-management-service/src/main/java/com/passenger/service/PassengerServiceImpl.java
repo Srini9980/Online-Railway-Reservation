@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.passenger.exception.AuthenticationFailedException;
+import com.passenger.exception.PhoneNumberAlreadyExistingException;
 import com.passenger.exception.UserNameAlreadyExistingException;
 import com.passenger.exception.UserNotFoundException;
 import com.passenger.pojo.Passenger;
@@ -34,6 +35,10 @@ public class PassengerServiceImpl implements PassengerService {
 		Optional<Passenger> optionalPassenger = passengerRepository.findByUserName(passenger.getUserName());
 		if (optionalPassenger.isPresent()) {
 			throw new UserNameAlreadyExistingException("Username already exists");
+		}
+		Optional<Passenger> passengerByPhone = passengerRepository.findByPhone(passenger.getPhone());
+		if (passengerByPhone.isEmpty()) {
+			throw new PhoneNumberAlreadyExistingException("Phone number already exists" + passenger.getPhone());
 		}
 		Passenger newPassenger = passengerRepository.save(passenger);
 		return newPassenger;
