@@ -21,7 +21,7 @@ import com.passenger.service.PassengerService;
 
 @RestController
 public class PassengerController {
-	
+
 	@Autowired
 	private PassengerService passengerService;
 
@@ -35,15 +35,15 @@ public class PassengerController {
 
 	@GetMapping("/passenger/all")
 	public List<Passenger> fetchAllPassenger() {
-		
+
 		List<Passenger> allPassenger = passengerService.getAllPassenger();
 		return allPassenger;
 	}
 
 	@GetMapping("/passenger/find/{passengerId}")
-	public ResponseEntity<Object> fetchById(@PathVariable("passengerId") int passengerId) {
+	public ResponseEntity<Passenger> fetchById(@PathVariable("passengerId") int passengerId) {
 
-		ResponseEntity<Object> reponseEntity = null;
+		ResponseEntity<Passenger> reponseEntity = null;
 		Passenger passenger = passengerService.getPassengerById(passengerId);
 		reponseEntity = new ResponseEntity<>(passenger, HttpStatus.OK);
 		return reponseEntity;
@@ -57,12 +57,12 @@ public class PassengerController {
 		LoginResponse loginResponse = new LoginResponse();
 		loginResponse.setPassengerId(passenger.getPassengerId());
 		loginResponse.setFirstName(passenger.getFirstName());
-	    loginResponse.setLastName(passenger.getLastName());
-	    loginResponse.setAge(passenger.getAge());
-	    loginResponse.setPhone(passenger.getPhone());
-	    loginResponse.setLocation(passenger.getLocation());
-	    loginResponse.setUserName(passenger.getUserName());
-	    loginResponse.setEmail(passenger.getEmail());
+		loginResponse.setLastName(passenger.getLastName());
+		loginResponse.setAge(passenger.getAge());
+		loginResponse.setPhone(passenger.getPhone());
+		loginResponse.setLocation(passenger.getLocation());
+		loginResponse.setUserName(passenger.getUserName());
+		loginResponse.setEmail(passenger.getEmail());
 		ResponseEntity<LoginResponse> responseEntity = new ResponseEntity<>(loginResponse, HttpStatus.OK);
 		return responseEntity;
 	}
@@ -89,14 +89,14 @@ public class PassengerController {
 		List<Passenger> passengerByRole = passengerService.getAllPassengerByLocation(location);
 		return passengerByRole;
 	}
-	
+
 	@GetMapping("/passenger/byusername/{username}")
 	public Optional<Passenger> fetchPassengerbyUserName(@PathVariable("username") String userName) {
 
 		Optional<Passenger> passengerByUserName = passengerService.getAllPassengerByUserName(userName);
 		return passengerByUserName;
 	}
-	
+
 	@GetMapping("/passenger/byphone/{phone}")
 	public Optional<Passenger> fetchPassengerbyPhone(@PathVariable("phone") long phone) {
 

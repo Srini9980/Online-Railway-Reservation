@@ -22,5 +22,4 @@ public interface PassengerRepository extends JpaRepository<Passenger, Integer>{
 	@Query("select p from Passenger p where p.userName = :uname and p.password = :upassword")
 	public Passenger login(@Param("uname")String userName, @Param("upassword")String password);
 	
-
 }
