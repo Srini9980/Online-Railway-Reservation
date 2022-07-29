@@ -1,0 +1,10 @@
+package com.admin.exception;
+
+@SuppressWarnings("serial")
+public class AuthenticationFailedException extends RuntimeException {
+
+	public AuthenticationFailedException(String message) {
+		super(message);
+	}
+
+}
