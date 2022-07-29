@@ -18,3 +18,4 @@ spring:
          http://localhost:8082/
         predicates:
         - Path=/passenger/find/** , /passenger/all, /passenger/update, /passenger/delete/**, /passenger/add, /passenger/login, /passenger/bylocation/**, /passenger/byusername/**, /passenger/byphone/**
+        
