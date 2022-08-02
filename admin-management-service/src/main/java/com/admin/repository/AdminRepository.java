@@ -12,7 +12,9 @@ import com.admin.pojo.Admin;
 @Repository
 public interface AdminRepository extends MongoRepository<Admin, Integer> {
 	
-	@Query("{'phone':?0 }")
+//	The query on line 17, 20 and 23 are optional, but the query in line 26 is compulsory for checking 2 parameters
+	
+	@Query("{'phone':?0 }")  
 	public Optional<Admin> findByPhone(long phone);
 	
 	@Query("{'userName':?0 }")

@@ -6,6 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,17 +18,45 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.admin.dto.AuthenticationRequest;
+import com.admin.dto.AuthenticationResponse;
 import com.admin.dto.LoginRequest;
 import com.admin.dto.LoginResponse;
 import com.admin.pojo.Admin;
 import com.admin.service.AdminService;
+import com.admin.service.MyUserDetailsService;
+import com.admin.util.JwtUtil;
 
 @RestController
 public class AdminController {
-	
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
 	@Autowired
 	private AdminService adminService;
 	
+	@Autowired
+	private MyUserDetailsService userDetailsService;
+	
+	@Autowired
+	private JwtUtil jwtTokenUtil;
+
+	@PostMapping("/authenticate")
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
+			throws Exception {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+					authenticationRequest.getUserName(), authenticationRequest.getPassword()));
+		} catch (BadCredentialsException e) {
+			throw new Exception("Incorrect username or password", e);
+		}
+		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUserName());
+		final String jwt = jwtTokenUtil.generateToken(userDetails);
+		return ResponseEntity.ok(new AuthenticationResponse(jwt));
+
+	}
+
 	@PostMapping("/admin/add")
 	public ResponseEntity<Admin> addAdmin(@RequestBody Admin admin) {
 
@@ -32,14 +64,14 @@ public class AdminController {
 		ResponseEntity<Admin> responseEntity = new ResponseEntity<>(newAdmin, HttpStatus.OK);
 		return responseEntity;
 	}
-	
+
 	@GetMapping("/admin/all")
 	public List<Admin> fetchAllAdmin() {
 
 		List<Admin> allAdmin = adminService.getAllAdmin();
 		return allAdmin;
 	}
-	
+
 	@GetMapping("/admin/find/{adminId}")
 	public ResponseEntity<Admin> fetchById(@PathVariable("adminId") int adminId) {
 
@@ -48,7 +80,7 @@ public class AdminController {
 		reponseEntity = new ResponseEntity<>(admin, HttpStatus.OK);
 		return reponseEntity;
 	}
-	
+
 	@PostMapping("/admin/login")
 	public ResponseEntity<LoginResponse> signin(@RequestBody LoginRequest loginRequest) {
 
@@ -64,7 +96,7 @@ public class AdminController {
 		ResponseEntity<LoginResponse> responseEntity = new ResponseEntity<>(loginResponse, HttpStatus.OK);
 		return responseEntity;
 	}
-	
+
 	@PutMapping("/admin/update")
 	public ResponseEntity<Admin> updateAdmin(@RequestBody Admin admin) {
 
@@ -72,7 +104,7 @@ public class AdminController {
 		ResponseEntity<Admin> responseEntity = new ResponseEntity<>(updatedAdmin, HttpStatus.OK);
 		return responseEntity;
 	}
-	
+
 	@DeleteMapping("/admin/delete/{adminId}")
 	public ResponseEntity<String> deletePassengerById(@PathVariable("adminId") int adminId) {
 
@@ -80,14 +112,14 @@ public class AdminController {
 		ResponseEntity<String> responseEntity = new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
 		return responseEntity;
 	}
-	
+
 	@GetMapping("/admin/bylocation/{location}")
 	public List<Admin> fetchAdminbyLocation(@PathVariable("location") String location) {
 
 		List<Admin> adminByLocation = adminService.getAllAdminByLocation(location);
 		return adminByLocation;
 	}
-	
+
 	@GetMapping("/admin/byusername/{username}")
 	public Optional<Admin> fetchAdminbyUserName(@PathVariable("username") String userName) {
 
