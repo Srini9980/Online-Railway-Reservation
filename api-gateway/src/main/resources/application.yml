@@ -17,10 +17,25 @@ spring:
         uri:
          http://localhost:8082/
         predicates:
-        - Path=/passenger/find/** , /passenger/all, /passenger/update, /passenger/delete/**, /passenger/add, /passenger/login, /passenger/bylocation/**, /passenger/byusername/**, /passenger/byphone/**, /passenger/authenticate
+        - Path=/passenger/**
       - id : ADMIN-MANAGEMENT-SERVICE
         uri:
          http://localhost:8081/
         predicates:
-        - Path=/admin/find/** , /admin/all, /admin/update, /admin/delete/**, /admin/add, /admin/login, /admin/bylocation/**, /admin/byusername/**, /admin/byphone/**, /authenticate
+        - Path=/admin/** ,/authenticate
+      - id : TRAIN-MANAGEMENT-SERVICE
+        uri:
+         http://localhost:8083/
+        predicates:
+        - Path=/train/**
+      - id : TICKET-MANAGEMENT-SERVICE
+        uri:
+         http://localhost:8084/
+        predicates:
+        - Path=/booking/**
+      - id : FARE-MANAGEMENT-SERVICE
+        uri:
+         http://localhost:8085/
+        predicates:
+        - Path=/fare/**
         

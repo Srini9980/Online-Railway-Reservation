@@ -1,4 +1,4 @@
-package com.ticket;
+package com.train;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,15 +8,16 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class TicketManagementServiceApplication {
+public class TrainManagementServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TicketManagementServiceApplication.class, args);
+		SpringApplication.run(TrainManagementServiceApplication.class, args);
 	}
 	
 	@Bean
-	public RestTemplate restTemplate() {
+	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
+
 	}
 
 }
