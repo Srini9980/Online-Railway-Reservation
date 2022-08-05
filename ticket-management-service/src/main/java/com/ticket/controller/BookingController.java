@@ -19,44 +19,38 @@ import com.ticket.service.BookingService;
 
 @RestController
 public class BookingController {
-	
+
 	@Autowired
 	private BookingService bookingService;
-	
+
 	@Autowired
 	private BookingRepository bookingRepository;
-	
-//	@PostMapping("/booking/save")
-//	public ResponseEntity<Object> reserveTicket(@RequestBody BookingRequest bookingRequest) {
-//		
-//	List<Passenger> passengers = bookingRequest.getPassenger();
-//		int passengerId = bookingRequest.getPassengerId();
-//		
-//		passengers.forEach(r -> {
-//			r.getUserName();
-//			r.getAge();
-//			r.getGender();
-//		});
-//		
-//		Booking newBooking = bookingService.saveBooking(passengerId, passengers);
-//		return new ResponseEntity<>(newBooking, HttpStatus.OK);
-//	}
-	
+
 	@PostMapping("/booking/save")
 	public BookingResponse reserveTicket(@RequestBody Booking booking) {
 
 		return bookingService.saveBooking(booking);
 	}
-	
+
 	@DeleteMapping("/booking/delete/{bookingId}")
 	public ResponseEntity<String> cancelBooking(@PathVariable("bookingId") int bookingId) {
-		
+
 		bookingService.deleteBooking(bookingId);
 		return new ResponseEntity<>("Ticket cancel successfully", HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/booking/all")
 	public List<Booking> fetchAllBooking() {
 		return bookingRepository.findAll();
 	}
+	
+	@GetMapping("/booking/find/{bookingId}")
+	public ResponseEntity<Booking> fetchBookingById(@PathVariable("bookingId") int bookingId) {
+		
+		ResponseEntity<Booking> responseEntity = null;
+		Booking booking = bookingService.getBookingById(bookingId);
+		responseEntity = new ResponseEntity<>(booking, HttpStatus.OK);
+		return responseEntity;
+	}
+	
 }

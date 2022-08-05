@@ -38,4 +38,9 @@ spring:
          http://localhost:8085/
         predicates:
         - Path=/fare/**
+      - id : PNR-MANAGEMENT-SERVICE
+        uri:
+         http://localhost:8086/
+        predicates:
+        - Path=/pnr/**
         
