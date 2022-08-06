@@ -10,6 +10,7 @@ spring:
   application:
     name: api_gateway
 
+
   cloud:
     gateway:
       routes:
@@ -18,29 +19,74 @@ spring:
          http://localhost:8082/
         predicates:
         - Path=/passenger/**
+        filters:
+          - name: CircuitBreaker
+            args:
+              name: PASSENGER-MANAGEMENET-SERVICE
+              fallbackuri: forward:/passenger/fallback
       - id : ADMIN-MANAGEMENT-SERVICE
         uri:
          http://localhost:8081/
         predicates:
         - Path=/admin/** ,/authenticate
+        filters:
+          - name: CircuitBreaker
+            args:
+              name: ADMIN-MANAGEMENET-SERVICE
+              fallbackuri: forward:/admin/fallback
       - id : TRAIN-MANAGEMENT-SERVICE
         uri:
          http://localhost:8083/
         predicates:
         - Path=/train/**
+        filters:
+          - name: CircuitBreaker
+            args:
+              name: TRAIN-MANAGEMENET-SERVICE
+              fallbackuri: forward:/train/fallback
       - id : TICKET-MANAGEMENT-SERVICE
         uri:
          http://localhost:8084/
         predicates:
         - Path=/booking/**
+        filters:
+          - name: CircuitBreaker
+            args:
+              name: TICKET-MANAGEMENET-SERVICE
+              fallbackuri: forward:/ticket/fallback
       - id : FARE-MANAGEMENT-SERVICE
         uri:
          http://localhost:8085/
         predicates:
         - Path=/fare/**
+        filters:
+          - name: CircuitBreaker
+            args:
+              name: FARE-MANAGEMENET-SERVICE
+              fallbackuri: forward:/fare/fallback
       - id : PNR-MANAGEMENT-SERVICE
         uri:
          http://localhost:8086/
         predicates:
         - Path=/pnr/**
-        
+        filters:
+          - name: CircuitBreaker
+            args:
+              name: PNR-MANAGEMENET-SERVICE
+              fallbackuri: forward:/pnr/fallback
+  main:
+    web-application-type: reactive
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream                       

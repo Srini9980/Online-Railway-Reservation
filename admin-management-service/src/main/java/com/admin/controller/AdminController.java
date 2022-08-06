@@ -3,6 +3,8 @@ package com.admin.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,8 @@ import com.admin.util.JwtUtil;
 
 @RestController
 public class AdminController {
+	
+	Logger logger = LoggerFactory.getLogger(AdminController.class);
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -45,6 +49,9 @@ public class AdminController {
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
 			throws Exception {
+		
+		logger.info("jwtAuthenticate method from Admin controller is accessed");
+		
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 					authenticationRequest.getUserName(), authenticationRequest.getPassword()));
@@ -59,6 +66,8 @@ public class AdminController {
 
 	@PostMapping("/admin/add")
 	public ResponseEntity<Admin> addAdmin(@RequestBody Admin admin) {
+		
+		logger.info("addAdmin method from Admin controller is accessed");
 
 		Admin newAdmin = adminService.savePassenger(admin);
 		ResponseEntity<Admin> responseEntity = new ResponseEntity<>(newAdmin, HttpStatus.OK);
@@ -67,6 +76,8 @@ public class AdminController {
 
 	@GetMapping("/admin/all")
 	public List<Admin> fetchAllAdmin() {
+		
+		logger.info("fetchAllAdmin method from Admin controller is accessed");
 
 		List<Admin> allAdmin = adminService.getAllAdmin();
 		return allAdmin;
@@ -74,6 +85,8 @@ public class AdminController {
 
 	@GetMapping("/admin/find/{adminId}")
 	public ResponseEntity<Admin> fetchById(@PathVariable("adminId") int adminId) {
+		
+		logger.info("AdminById method from Admin controller is accessed");
 
 		ResponseEntity<Admin> reponseEntity = null;
 		Admin admin = adminService.getAdminById(adminId);
@@ -83,6 +96,8 @@ public class AdminController {
 
 	@PostMapping("/admin/login")
 	public ResponseEntity<LoginResponse> signin(@RequestBody LoginRequest loginRequest) {
+		
+		logger.info("signIn method from Admin controller is accessed");
 
 		Admin admin = adminService.doLogin(loginRequest.getUserName(), loginRequest.getPassword());
 
@@ -99,6 +114,8 @@ public class AdminController {
 
 	@PutMapping("/admin/update")
 	public ResponseEntity<Admin> updateAdmin(@RequestBody Admin admin) {
+		
+		logger.info("updateAdmin method from Admin controller is accessed");
 
 		Admin updatedAdmin = adminService.updateAdmin(admin);
 		ResponseEntity<Admin> responseEntity = new ResponseEntity<>(updatedAdmin, HttpStatus.OK);
@@ -106,7 +123,9 @@ public class AdminController {
 	}
 
 	@DeleteMapping("/admin/delete/{adminId}")
-	public ResponseEntity<String> deletePassengerById(@PathVariable("adminId") int adminId) {
+	public ResponseEntity<String> deleteAdminById(@PathVariable("adminId") int adminId) {
+		
+		logger.info("deleteAdmin method from Admin controller is accessed");
 
 		adminService.deleteAdminById(adminId);
 		ResponseEntity<String> responseEntity = new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
@@ -115,6 +134,8 @@ public class AdminController {
 
 	@GetMapping("/admin/bylocation/{location}")
 	public List<Admin> fetchAdminbyLocation(@PathVariable("location") String location) {
+		
+		logger.info("AdminBylocation method from Admin controller is accessed");
 
 		List<Admin> adminByLocation = adminService.getAllAdminByLocation(location);
 		return adminByLocation;
@@ -122,6 +143,8 @@ public class AdminController {
 
 	@GetMapping("/admin/byusername/{username}")
 	public Optional<Admin> fetchAdminbyUserName(@PathVariable("username") String userName) {
+		
+		logger.info("AdminByUsername method from Admin controller is accessed");
 
 		Optional<Admin> adminByUserName = adminService.getAllAdminByUserName(userName);
 		return adminByUserName;
@@ -129,6 +152,8 @@ public class AdminController {
 
 	@GetMapping("/admin/byphone/{phone}")
 	public Optional<Admin> fetchAdminbyPhone(@PathVariable("phone") long phone) {
+		
+		logger.info("AdminByPhone method from Admin controller is accessed");
 
 		Optional<Admin> adminByPhone = adminService.getAllAdminByPhone(phone);
 		return adminByPhone;

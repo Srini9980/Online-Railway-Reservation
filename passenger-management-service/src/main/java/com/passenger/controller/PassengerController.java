@@ -3,6 +3,8 @@ package com.passenger.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +23,16 @@ import com.passenger.service.PassengerService;
 
 @RestController
 public class PassengerController {
+	
+	Logger logger = LoggerFactory.getLogger(PassengerController.class);
 
 	@Autowired
 	private PassengerService passengerService;
 
 	@PostMapping("/passenger/add")
 	public ResponseEntity<Passenger> addPassenger(@RequestBody Passenger passenger) {
+		
+		logger.info("addPassenger method from Passenger controller is accessed");
 
 		Passenger newPassenger = passengerService.savePassenger(passenger);
 		ResponseEntity<Passenger> responseEntity = new ResponseEntity<>(newPassenger, HttpStatus.OK);
@@ -35,6 +41,8 @@ public class PassengerController {
 
 	@GetMapping("/passenger/all")
 	public List<Passenger> fetchAllPassenger() {
+		
+		logger.info("fetchAllPassenger method from Passenger controller is accessed");
 
 		List<Passenger> allPassenger = passengerService.getAllPassenger();
 		return allPassenger;
@@ -42,6 +50,8 @@ public class PassengerController {
 
 	@GetMapping("/passenger/find/{passengerId}")
 	public ResponseEntity<Passenger> fetchById(@PathVariable("passengerId") int passengerId) {
+		
+		logger.info("fetchBYId method from Passenger controller is accessed");
 
 		ResponseEntity<Passenger> reponseEntity = null;
 		Passenger passenger = passengerService.getPassengerById(passengerId);
@@ -51,6 +61,8 @@ public class PassengerController {
 
 	@PostMapping("/passenger/login")
 	public ResponseEntity<LoginResponse> signin(@RequestBody LoginRequest loginRequest) {
+		
+		logger.info("signIn method from Passenger controller is accessed");
 
 		Passenger passenger = passengerService.doLogin(loginRequest.getUserName(), loginRequest.getPassword());
 
@@ -69,6 +81,8 @@ public class PassengerController {
 
 	@PutMapping("/passenger/update")
 	public ResponseEntity<Passenger> updatePassenger(@RequestBody Passenger passenger) {
+		
+		logger.info("updatePassenger method from Passenger controller is accessed");
 
 		Passenger updatedPassenger = passengerService.updatePassenger(passenger);
 		ResponseEntity<Passenger> responseEntity = new ResponseEntity<>(updatedPassenger, HttpStatus.OK);
@@ -77,6 +91,8 @@ public class PassengerController {
 
 	@DeleteMapping("/passenger/delete/{passengerId}")
 	public ResponseEntity<String> deletePassengerById(@PathVariable("passengerId") int passengerId) {
+		
+		logger.info("deletePassenger method from Passenger controller is accessed");
 
 		passengerService.deletePassengerById(passengerId);
 		ResponseEntity<String> responseEntity = new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
@@ -85,6 +101,8 @@ public class PassengerController {
 
 	@GetMapping("/passenger/bylocation/{location}")
 	public List<Passenger> fetchPassengerbyLocation(@PathVariable("location") String location) {
+		
+		logger.info("passengerByLocation method from Passenger controller is accessed");
 
 		List<Passenger> passengerByRole = passengerService.getAllPassengerByLocation(location);
 		return passengerByRole;
@@ -92,6 +110,8 @@ public class PassengerController {
 
 	@GetMapping("/passenger/byusername/{username}")
 	public Optional<Passenger> fetchPassengerbyUserName(@PathVariable("username") String userName) {
+		
+		logger.info("passengerByUsername method from Passenger controller is accessed");
 
 		Optional<Passenger> passengerByUserName = passengerService.getAllPassengerByUserName(userName);
 		return passengerByUserName;
@@ -99,6 +119,8 @@ public class PassengerController {
 
 	@GetMapping("/passenger/byphone/{phone}")
 	public Optional<Passenger> fetchPassengerbyPhone(@PathVariable("phone") long phone) {
+		
+		logger.info("passengerByLocation method from Passenger controller is accessed");
 
 		Optional<Passenger> passengerByPhone = passengerService.getAllPassengerByPhone(phone);
 		return passengerByPhone;
