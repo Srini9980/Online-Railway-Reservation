@@ -45,12 +45,12 @@ public class PnrServiceImpl implements PnrService {
 		}
 
 		Pnr pnr = optionalPnr.get();
-		Train train = restTemplate.getForObject("http://localhost:8083/train/find/" + pnr.getTrainId(), Train.class);
+		Train train = restTemplate.getForObject("http://TRAIN-MANAGEMENT-SERVICE/train/find/" + pnr.getTrainId(), Train.class);
 		if (train.getTrainId() != pnr.getTrainId()) {
 			throw new PnrNotFoundException("No train booking done on this Id");
 		}
 
-		Booking booking = restTemplate.getForObject("http://localhost:8084/booking/find/" + pnr.getBookingId(), Booking.class);
+		Booking booking = restTemplate.getForObject("http://TICKET-MANAGEMENT-SERVICE/booking/find/" + pnr.getBookingId(), Booking.class);
 		if (booking.getBookingId() != pnr.getBookingId()) {
 			throw new PnrNotFoundException("No booking done on this Id");
 		}

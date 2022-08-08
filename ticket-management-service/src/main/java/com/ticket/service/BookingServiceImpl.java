@@ -28,14 +28,14 @@ public class BookingServiceImpl implements BookingService {
 		BookingResponse bookingResponse = new BookingResponse();
 		Booking newBooking = bookingRepository.save(booking);
 
-		Train train = restTemplate.getForObject("http://localhost:8083/train/find/" + booking.getTrainId(),
+		Train train = restTemplate.getForObject("http://TRAIN-MANAGEMENT-SERVICE/train/find/" + booking.getTrainId(),
 				Train.class);
 		if (newBooking.getTrainId() != train.getTrainId()) {
 			throw new BookingNotFoundException("No train found with this Id : " + train.getTrainId());
 		}
 
 		Passenger passenger = restTemplate
-				.getForObject("http://localhost:8082/passenger/find/" + booking.getPassengerId(), Passenger.class);
+				.getForObject("http://PASSENGER-MANAGEMENT-SERVICE/passenger/find/" + booking.getPassengerId(), Passenger.class);
 		if (newBooking.getPassengerId() != passenger.getPassengerId()) {
 			throw new BookingNotFoundException("Login in to book the reserve the ticket");
 		}

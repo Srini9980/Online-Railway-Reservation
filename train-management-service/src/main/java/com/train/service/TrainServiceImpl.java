@@ -56,7 +56,7 @@ public class TrainServiceImpl implements TrainService {
 			throw new TrainNotFoundException("No train found with this id :"+ trainId);
 		}
 		Train train=optionalTrain.get();
-		Fare fare=restTemplate.getForObject("http://localhost:8085/fare/find/" + train.getFareId(), Fare.class);
+		Fare fare=restTemplate.getForObject("http://FARE-MANAGEMENT-SERVICE/fare/find/" + train.getFareId(), Fare.class);
 		response.setFare(fare);
 		response.setTrain(train);
 		return response;
