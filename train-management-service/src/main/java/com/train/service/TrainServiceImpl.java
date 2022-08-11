@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.train.dto.Fare;
 import com.train.dto.ResponseTemplate;
+import com.train.exception.TrainNameAlreadyExistingException;
 import com.train.exception.TrainNotFoundException;
 import com.train.pojo.Train;
 import com.train.repository.TrainRepository;
@@ -25,6 +26,10 @@ public class TrainServiceImpl implements TrainService {
 	@Override
 	public Train saveTrain(Train train) {
 		
+		Train trainByName = trainRepository.findByTrainName(train.getTrainName());
+		if(trainByName.getTrainName() == train.getTrainName()) {
+			throw new TrainNameAlreadyExistingException("Train name already exists");
+		}
 		Train newTrain = trainRepository.save(train);
 		return newTrain;
 	}
@@ -95,6 +100,16 @@ public class TrainServiceImpl implements TrainService {
 		}
 		
 		return trainByName;
+	}
+
+	@Override
+	public List<Train> getAllTrainWithinRange(String source, String destination) {
+		
+		List<Train> trains = trainRepository.findAllTrainWithinRange(source, destination);
+		if(trains.isEmpty()) {
+			throw new TrainNotFoundException("No trains found with this route");
+		}
+		return trains;
 	}
 
 }

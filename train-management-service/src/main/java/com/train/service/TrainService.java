@@ -20,5 +20,7 @@ public interface TrainService {
 	public void deleteTrainById(int trainId);
 	
 	public Train getAllTrainByTrainName(String trainName);
+	
+	public List<Train> getAllTrainWithinRange(String source, String destination);
 
 }

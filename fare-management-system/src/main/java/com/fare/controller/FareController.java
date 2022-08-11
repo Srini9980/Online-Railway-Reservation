@@ -41,7 +41,7 @@ public class FareController {
 		logger.info("FareById method from Fare controller is accessed");
 		
 		ResponseEntity<Object> responseEntity = null;
-		Fare fare = fareService.getFare(fareId);
+		Fare fare = fareService.getFareById(fareId);
 		responseEntity = new ResponseEntity<Object>(fare, HttpStatus.OK);
 		return responseEntity;
 	}

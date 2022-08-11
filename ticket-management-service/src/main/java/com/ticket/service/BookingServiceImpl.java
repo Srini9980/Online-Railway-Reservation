@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.ticket.dto.BookingResponse;
-import com.ticket.dto.Passenger;
 import com.ticket.dto.Train;
 import com.ticket.exception.BookingNotFoundException;
 import com.ticket.pojo.Booking;
@@ -33,14 +32,6 @@ public class BookingServiceImpl implements BookingService {
 		if (newBooking.getTrainId() != train.getTrainId()) {
 			throw new BookingNotFoundException("No train found with this Id : " + train.getTrainId());
 		}
-
-		Passenger passenger = restTemplate
-				.getForObject("http://PASSENGER-MANAGEMENT-SERVICE/passenger/find/" + booking.getPassengerId(), Passenger.class);
-		if (newBooking.getPassengerId() != passenger.getPassengerId()) {
-			throw new BookingNotFoundException("Login in to book the reserve the ticket");
-		}
-
-		bookingResponse.setPassenger(passenger);
 		bookingResponse.setTrain(train);
 		bookingResponse.setBooking(newBooking);
 		return bookingResponse;
@@ -60,12 +51,12 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	public Booking getBookingById(int bookingId) {
-		
+
 		Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
-		if(optionalBooking.isEmpty()) {
+		if (optionalBooking.isEmpty()) {
 			throw new BookingNotFoundException("No booking found with this Id : " + bookingId);
 		}
-		
+
 		Booking bookingById = optionalBooking.get();
 		return bookingById;
 	}

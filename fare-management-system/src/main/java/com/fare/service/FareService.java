@@ -6,7 +6,7 @@ public interface FareService {
 	
 	public Fare saveFare(Fare fare);
 	
-	public Fare getFare(int fareId);
+	public Fare getFareById(int fareId);
 	
 	public Fare modifyFare(Fare fare);
 	

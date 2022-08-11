@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fare.exception.FareIdAlreadyExistsException;
 import com.fare.exception.FareNotFoundException;
 import com.fare.pojo.Fare;
 import com.fare.repository.FareRepository;
@@ -18,12 +19,16 @@ public class FareServiceImpl implements FareService {
 	@Override
 	public Fare saveFare(Fare fare) {
 
+		Optional<Fare> optionalFetchById = fareRepository.findById(fare.getFareId());
+		if (optionalFetchById.isPresent()) {
+			throw new FareIdAlreadyExistsException("Fare id already exists : " + fare.getFareId());
+		}
 		Fare newFare = fareRepository.save(fare);
 		return newFare;
 	}
 
 	@Override
-	public Fare getFare(int fareId) {
+	public Fare getFareById(int fareId) {
 
 		Optional<Fare> optionalFetchById = fareRepository.findById(fareId);
 		if (optionalFetchById.isEmpty()) {

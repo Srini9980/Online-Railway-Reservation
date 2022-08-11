@@ -10,9 +10,11 @@ public class Booking {
 
 	@Id
 	private int bookingId;
+	private String passengerName;
+	private int age;
+	private String gender;
 	private LocalDate dateOfJourney;
 	private String seatType;
-	private int passengerId;
 	private int trainId;
 
 	public int getBookingId() {
@@ -21,14 +23,6 @@ public class Booking {
 
 	public void setBookingId(int bookingId) {
 		this.bookingId = bookingId;
-	}
-
-	public int getPassengerId() {
-		return passengerId;
-	}
-
-	public void setPassengerId(int passengerId) {
-		this.passengerId = passengerId;
 	}
 
 	public int getTrainId() {
@@ -53,6 +47,30 @@ public class Booking {
 
 	public void setSeatType(String seatType) {
 		this.seatType = seatType;
+	}
+
+	public String getPassengerName() {
+		return passengerName;
+	}
+
+	public void setPassengerName(String passengerName) {
+		this.passengerName = passengerName;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
 }

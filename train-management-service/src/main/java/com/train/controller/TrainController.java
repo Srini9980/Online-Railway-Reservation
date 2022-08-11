@@ -96,4 +96,11 @@ public class TrainController {
 		return responseEntity;
 		
 	}
+	
+	@GetMapping("/train/byroute/{source}/{destination}")
+	public List<Train> fetchAllTrainByRoute(@PathVariable("source") String source, @PathVariable("destination") String destination) {
+		
+		List<Train> trains = trainService.getAllTrainWithinRange(source, destination);
+		return trains;
+	}
 }

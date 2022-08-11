@@ -10,7 +10,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(value = TrainNotFoundException.class)
-	public ResponseEntity<String> handleUserNotFoundException(Exception exception) {
+	public ResponseEntity<String> handleTrainNotFoundException(Exception exception) {
+		ResponseEntity<String> responseEntity = new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+		return responseEntity;
+	}
+	
+	@ExceptionHandler(value = TrainNameAlreadyExistingException.class)
+	public ResponseEntity<String> handleTrainNameAlreadyExistingException(Exception exception) {
 		ResponseEntity<String> responseEntity = new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
 		return responseEntity;
 	}
