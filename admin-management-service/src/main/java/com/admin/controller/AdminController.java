@@ -69,7 +69,7 @@ public class AdminController {
 		
 		logger.info("addAdmin method from Admin controller is accessed");
 
-		Admin newAdmin = adminService.savePassenger(admin);
+		Admin newAdmin = adminService.saveAdmin(admin);
 		ResponseEntity<Admin> responseEntity = new ResponseEntity<>(newAdmin, HttpStatus.OK);
 		return responseEntity;
 	}

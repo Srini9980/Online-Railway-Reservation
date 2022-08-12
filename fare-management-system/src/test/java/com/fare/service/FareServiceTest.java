@@ -87,6 +87,21 @@ public class FareServiceTest {
 	}
 	
 	@Test
+	public void testUpdateFareWithException() {
+		
+		Fare fare = new Fare();
+		fare.setFareId(10);
+		fare.setACChairClass(2500);
+		fare.setFirstClass(1000);
+		fare.setSecondClass(550);
+		fare.setSleeperClass(800);
+		fare.setTatkal(200);
+		
+		when(fareRepository.findById(11)).thenThrow(FareNotFoundException.class);
+		assertThrows(FareNotFoundException.class, () -> fareService.modifyFare(fare));
+	}
+	
+	@Test
 	public void testDeleteFareById() {
 		
 		Fare fare = new Fare();
@@ -102,5 +117,12 @@ public class FareServiceTest {
 		fareService.deleteFare(10);
 		verify(fareRepository,times(1)).findById(10);
 		verify(fareRepository,times(1)).deleteById(10);
+	}
+	
+	@Test
+	public void testDeleteFareByIdWithException() {
+		
+		when(fareRepository.findById(11)).thenThrow(FareNotFoundException.class);
+		assertThrows(FareNotFoundException.class, () -> fareService.deleteFare(11));
 	}
 }

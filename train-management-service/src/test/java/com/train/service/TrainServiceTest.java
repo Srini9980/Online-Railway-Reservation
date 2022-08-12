@@ -14,7 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.client.RestTemplate;
 
+import com.train.dto.Fare;
+import com.train.dto.ResponseTemplate;
 import com.train.exception.TrainNotFoundException;
 import com.train.pojo.Train;
 import com.train.repository.TrainRepository;
@@ -26,13 +29,16 @@ public class TrainServiceTest {
 	private TrainService trainService = new TrainServiceImpl();
 	
 	@Mock
+	private RestTemplate restTemplate;
+	
+	@Mock
 	private TrainRepository trainRepository;
 	
 	@Test
 	public void testGetTrainById() {
 		
 		Train train = new Train();
-		train.setTrainId(10);
+		train.setTrainId(10); 
 		train.setTrainName("double-decker");
 		train.setSource("bangalore");
 		train.setDestination("chennai");
@@ -98,7 +104,7 @@ public class TrainServiceTest {
 	}
 	
 	@Test
-	public void tesrSaveTrain() {
+	public void testSaveTrain() { 
 		
 		Train train = new Train();
 		train.setTrainId(10);
@@ -112,7 +118,7 @@ public class TrainServiceTest {
 		
 		when(trainRepository.save(train)).thenReturn(train);
 		Train newTrain = trainService.saveTrain(train);
-		assertEquals("double-decker", newTrain.getTrainName());
+		assertEquals("bangalore",newTrain.getSource());
 		verify(trainRepository,times(1)).save(train);
 	}
 	
@@ -138,6 +144,23 @@ public class TrainServiceTest {
 	}
 	
 	@Test
+	public void testUpdateTrainWithException() {
+		
+		Train train = new Train();
+		train.setTrainId(10);
+		train.setTrainName("double-decker");
+		train.setSource("bangalore");
+		train.setDestination("chennai");
+		train.setDepartureTime("10:00");
+		train.setArrivalTime("15:30");
+		train.setSeatsAvailability(200);
+		train.setFareId(10);
+		
+		when(trainRepository.findById(10)).thenThrow(TrainNotFoundException.class);
+		assertThrows(TrainNotFoundException.class, () -> trainService.updateTrain(train));
+	}
+	
+	@Test
 	public void testDeleteTrainById() {
 		
 		Train train = new Train();
@@ -155,6 +178,13 @@ public class TrainServiceTest {
 		trainService.deleteTrainById(10);
 		verify(trainRepository,times(1)).findById(10);
 		verify(trainRepository,times(1)).deleteById(10);
+	}
+	
+	@Test
+	public void testDeleteTrainByIdWithexception() {
+		
+		when(trainRepository.findById(10)).thenThrow(TrainNotFoundException.class);
+		assertThrows(TrainNotFoundException.class, () -> trainService.deleteTrainById(10));
 	}
 	
 	@Test
@@ -236,5 +266,36 @@ public class TrainServiceTest {
 		assertThrows(TrainNotFoundException.class, () -> trainService.getAllTrainByTrainName("double-decker"));
 		
 	}
+	
+	@Test
+	public void testGetTrainByFare() {
+		
+		Train train = new Train();
+		train.setTrainId(10);
+		train.setTrainName("double-decker");
+		train.setSource("bangalore");
+		train.setDestination("chennai");
+		train.setDepartureTime("10:00");
+		train.setArrivalTime("15:30");
+		train.setSeatsAvailability(200);
+		train.setFareId(11);
+		
+		Fare fare = new Fare();
+		fare.setFareId(11);
+		fare.setACChairClass(2500);
+		fare.setFirstClass(1000);
+		fare.setSecondClass(800);
+		fare.setSleeperClass(550);
+		fare.setTatkal(200);
+		
+		Optional<Train> optionalTrain = Optional.of(train);
+		when(trainRepository.findById(10)).thenReturn(optionalTrain);
+		optionalTrain.get();
+		ResponseTemplate responseTemplate = trainService.getTrainByFare(train.getTrainId());
+		responseTemplate.setFare(fare);
+		responseTemplate.setTrain(train);
+		assertEquals(fare, responseTemplate.getFare());
+	}
+	
 
 }

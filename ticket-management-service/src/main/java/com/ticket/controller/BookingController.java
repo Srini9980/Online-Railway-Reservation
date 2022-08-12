@@ -51,7 +51,7 @@ public class BookingController {
 	public List<Booking> fetchAllBooking() {
 		
 		logger.info("fetchAllBooking method from Booking controller is accessed");
-		return bookingRepository.findAll();
+		return bookingService.getAllBooking();
 	}
 	
 	@GetMapping("/booking/find/{bookingId}")

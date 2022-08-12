@@ -9,7 +9,7 @@ public interface AdminService {
 	
 	public Admin doLogin(String userName, String password);
 
-	public Admin savePassenger(Admin admin);
+	public Admin saveAdmin(Admin admin);
 
 	public List<Admin> getAllAdmin();
 

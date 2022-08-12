@@ -40,7 +40,7 @@ public class TrainController {
 	@GetMapping("/train/all")
 	public List<Train> fetchAllTrain() {
 		
-		logger.info("fetchAllTrain method from Train controller is accessed");
+		logger.info("fetchAllTrain method from Train controller is accessed"); 
 
 		List<Train> allTrain = trainService.getAllTrain();
 		return allTrain;
@@ -76,7 +76,7 @@ public class TrainController {
 		return responseEntity;
 	}
 	
-	@DeleteMapping("/train/delete/{trainId}")
+	@DeleteMapping("/train/delete/{trainId}") 
 	public ResponseEntity<String> deletePassengerById(@PathVariable("trainId") int trainId) {
 		
 		logger.info("deleteTrain method from Train controller is accessed");

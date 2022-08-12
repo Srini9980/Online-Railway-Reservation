@@ -218,7 +218,7 @@ public class AdminServiceTest {
 		admin.setPassword("12345");
 		
 		when(adminRepository.save(admin)).thenReturn(admin);
-		Admin newAdmin = adminService.savePassenger(admin);
+		Admin newAdmin = adminService.saveAdmin(admin);
 		assertEquals("srinivas", newAdmin.getUserName());
 		verify(adminRepository,times(1)).save(admin);
 	}
@@ -244,6 +244,23 @@ public class AdminServiceTest {
 	}
 	
 	@Test
+	public void testUpdateAdminWithException() {
+		
+		Admin admin = new Admin();
+		admin.setAdminId(10);
+		admin.setFirstName("srinivas");
+		admin.setLastName("v");
+		admin.setPhone(998078);
+		admin.setLocation("bangalore");
+		admin.setUserName("srinivas");
+		admin.setEmail("srinivas@mail.com");
+		admin.setPassword("12345");
+		
+		when(adminRepository.findById(11)).thenThrow(UserNotFoundException.class);
+		assertThrows(UserNotFoundException.class, () -> adminService.updateAdmin(admin));
+	}
+	
+	@Test
 	public void testDeleteAdminById() {
 		
 		Admin admin = new Admin();
@@ -264,6 +281,13 @@ public class AdminServiceTest {
 	}
 	
 	@Test
+	public void testDeleteAdminByIdWithException() {
+		
+		when(adminRepository.findById(11)).thenThrow(UserNotFoundException.class);
+		assertThrows(UserNotFoundException.class, () -> adminService.deleteAdminById(11));
+	}
+	
+	@Test
 	public void testDoLogin() {
 		
 		Admin admin = new Admin();
@@ -276,7 +300,7 @@ public class AdminServiceTest {
 		admin = adminService.doLogin(admin.getUserName(), admin.getPassword());
 		verify(adminRepository,times(1)).login(admin.getUserName(), admin.getPassword());
 	}
-	
+
 	@Test
 	public void testDoLoginWithException() {
 		

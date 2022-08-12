@@ -17,7 +17,7 @@ import com.fare.pojo.Fare;
 import com.fare.service.FareService;
 
 @RestController
-public class FareController {
+public class FareController { 
 	
 	Logger logger = LoggerFactory.getLogger(FareController.class);
 	

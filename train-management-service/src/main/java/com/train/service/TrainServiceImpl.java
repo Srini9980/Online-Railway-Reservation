@@ -26,11 +26,11 @@ public class TrainServiceImpl implements TrainService {
 	@Override
 	public Train saveTrain(Train train) {
 		
-		Train trainByName = trainRepository.findByTrainName(train.getTrainName());
-		if(trainByName.getTrainName() == train.getTrainName()) {
-			throw new TrainNameAlreadyExistingException("Train name already exists");
-		}
-		Train newTrain = trainRepository.save(train);
+//		Train trainByName = trainRepository.findByTrainName(train.getTrainName());
+//		if(trainByName.getTrainName() == train.getTrainName()) {
+//			throw new TrainNameAlreadyExistingException("Train name already exists");
+//		}
+		Train newTrain = trainRepository.save(train); 
 		return newTrain;
 	}
 

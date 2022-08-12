@@ -104,8 +104,8 @@ public class PassengerController {
 		
 		logger.info("passengerByLocation method from Passenger controller is accessed");
 
-		List<Passenger> passengerByRole = passengerService.getAllPassengerByLocation(location);
-		return passengerByRole;
+		List<Passenger> passengerByLocation = passengerService.getAllPassengerByLocation(location);
+		return passengerByLocation; 
 	}
 
 	@GetMapping("/passenger/byusername/{username}")
@@ -114,7 +114,7 @@ public class PassengerController {
 		logger.info("passengerByUsername method from Passenger controller is accessed");
 
 		Optional<Passenger> passengerByUserName = passengerService.getAllPassengerByUserName(userName);
-		return passengerByUserName;
+		return passengerByUserName; 
 	}
 
 	@GetMapping("/passenger/byphone/{phone}")

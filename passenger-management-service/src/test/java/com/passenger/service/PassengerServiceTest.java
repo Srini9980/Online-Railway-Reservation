@@ -267,6 +267,25 @@ public class PassengerServiceTest {
 	}
 	
 	@Test
+	public void testUpdatePassengerWithException() {
+		
+		Passenger passenger = new Passenger();
+		passenger.setPassengerId(10);
+		passenger.setFirstName("srinivas");
+		passenger.setLastName("v");
+		passenger.setAge(25);
+		passenger.setGender("male");
+		passenger.setPhone(998078);
+		passenger.setLocation("bangalore");
+		passenger.setUserName("srinivas");
+		passenger.setEmail("srinivas@mail.com");
+		passenger.setPassword("12345");
+		
+		when(passengerRepository.findById(10)).thenThrow(UserNotFoundException.class);
+		assertThrows(UserNotFoundException.class, () -> passengerService.updatePassenger(passenger));
+	}
+	
+	@Test
 	public void testDeletePassengerById( ) {
 		
 		Passenger passenger = new Passenger();
@@ -287,6 +306,13 @@ public class PassengerServiceTest {
 		verify(passengerRepository,times(1)).findById(10);
 		verify(passengerRepository,times(1)).deleteById(10);
 		
+	}
+	
+	@Test
+	public void testDeletePassengerByIdWithException() {
+		
+		when(passengerRepository.findById(10)).thenThrow(UserNotFoundException.class);
+		assertThrows(UserNotFoundException.class, () -> passengerService.deletePassengerById(10));
 	}
 	
 	@Test

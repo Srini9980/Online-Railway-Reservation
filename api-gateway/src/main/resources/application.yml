@@ -1,6 +1,21 @@
 server:
   port: 9000
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost 
+            
 spring:
   application:
     name: api_gateway
@@ -72,15 +87,6 @@ spring:
               name: PNR-MANAGEMENET-SERVICE
               fallbackuri: forward:/pnr/fallback
 
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    hostname: localhost    
-                  
 hystrix:
   command:
     fallbackcmd:
@@ -88,9 +94,7 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 5000 
+   
+                  
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: hystrix.stream                       
+                       

@@ -30,7 +30,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public Admin savePassenger(Admin admin) {
+	public Admin saveAdmin(Admin admin) {
 
 //		To make the userName unique, we declared the exception on line 37 to 40
 

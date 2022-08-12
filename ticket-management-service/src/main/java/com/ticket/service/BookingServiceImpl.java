@@ -1,5 +1,6 @@
 package com.ticket.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,9 @@ public class BookingServiceImpl implements BookingService {
 
 		Train train = restTemplate.getForObject("http://TRAIN-MANAGEMENT-SERVICE/train/find/" + booking.getTrainId(),
 				Train.class);
-		if (newBooking.getTrainId() != train.getTrainId()) {
-			throw new BookingNotFoundException("No train found with this Id : " + train.getTrainId());
-		}
+//		if (newBooking.getTrainId() != train.getTrainId()) {
+//			throw new BookingNotFoundException("No train found with this Id : " + train.getTrainId());
+//		}
 		bookingResponse.setTrain(train);
 		bookingResponse.setBooking(newBooking);
 		return bookingResponse;
@@ -59,6 +60,15 @@ public class BookingServiceImpl implements BookingService {
 
 		Booking bookingById = optionalBooking.get();
 		return bookingById;
+	}
+
+
+
+	@Override
+	public List<Booking> getAllBooking() {
+		
+		List<Booking> allBooking = bookingRepository.findAll();
+		return allBooking;
 	}
 
 }
