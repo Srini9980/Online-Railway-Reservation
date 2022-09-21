@@ -1,19 +1,34 @@
 package com.train.pojo;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "train_collection")
 public class Train {
 
+	@Transient
+	public static final String SEQUENCE_NAME = "train_sequence";
+
 	@Id
 	private int trainId;
+	@NotNull(message = "Please enter the train name")
 	private String trainName;
+	@NotNull(message = "Source is required")
 	private String source;
+	@NotNull(message = "Train Destination is required")
 	private String destination;
+	@NotNull(message = "Train dparture n=time is required")
 	private String departureTime;
+	@NotNull(message = "Train arrival time is required")
 	private String arrivalTime;
+	@NotNull(message = "No of seats availability is required")
 	private int seatsAvailability;
+	@NotNull(message = "Please provide the fare id")
+	@Positive(message = "Id should be in positive number")
 	private int fareId;
 
 	public int getTrainId() {
@@ -78,6 +93,10 @@ public class Train {
 
 	public void setFareId(int fareId) {
 		this.fareId = fareId;
+	}
+
+	public static String getSequenceName() {
+		return SEQUENCE_NAME;
 	}
 
 }

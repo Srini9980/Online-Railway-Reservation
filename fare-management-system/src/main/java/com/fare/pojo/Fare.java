@@ -1,17 +1,34 @@
 package com.fare.pojo;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "fare_db")
 public class Fare {
 
+	@Transient
+	public static final String SEQUENCE_NAME = "fare_sequence";
+
 	@Id
 	private int fareId;
+	@NotNull(message  = "Tatkal is price is required")
+	@Positive(message = "Price should not be in negative")
 	private double tatkal;
+	@NotNull(message  = "Second class is price is required")
+	@Positive(message = "Price should not be in negative")
 	private double secondClass;
+	@NotNull(message  = "Sleeper class is price is required")
+	@Positive(message = "Price should not be in negative")
 	private double sleeperClass;
+	@NotNull(message  = "First class is price is required")
+	@Positive(message = "Price should not be in negative")
 	private double firstClass;
+	@NotNull(message  = "Ac chair class is price is required")
+	@Positive(message = "Price should not be in negative")
 	private double ACChairClass;
 
 	public int getFareId() {
@@ -60,6 +77,10 @@ public class Fare {
 
 	public void setACChairClass(double aCChairClass) {
 		ACChairClass = aCChairClass;
+	}
+
+	public static String getSequenceName() {
+		return SEQUENCE_NAME;
 	}
 
 }

@@ -1,14 +1,16 @@
 package com.api.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class FallBackMethodController {
 	
-	@GetMapping("/passenger/fallback")
-	public String PassengerManagementServiceFallBack() {
-		return "Passenger service is taking longer than the expected time."
+	@GetMapping("/login/fallback")
+	public String LoginManagementServiceFallBack() {
+		return "Login service is taking longer than the expected time."
 				+ " Please try again later";
 	}
 	
@@ -36,9 +38,9 @@ public class FallBackMethodController {
 				+ " Please try again later";
 	}
 	
-	@GetMapping("/admin/fallback")
-	public String AdminManagementServiceFallBack() {
-		return "Admin service is taking longer than the expected time."
+	@GetMapping("/user/fallback")
+	public String UserManagementServiceFallBack() {
+		return "User service is taking longer than the expected time."
 				+ " Please try again later";
 	}
 

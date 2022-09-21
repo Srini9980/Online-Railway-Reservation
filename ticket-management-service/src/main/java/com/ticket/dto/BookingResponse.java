@@ -1,5 +1,7 @@
 package com.ticket.dto;
 
+import java.util.List;
+
 import com.ticket.pojo.Booking;
 
 public class BookingResponse {

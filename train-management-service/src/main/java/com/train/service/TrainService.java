@@ -22,5 +22,7 @@ public interface TrainService {
 	public Train getAllTrainByTrainName(String trainName);
 	
 	public List<Train> getAllTrainWithinRange(String source, String destination);
+	
+	public int getSequenceNumber(String sequenceName);
 
 }

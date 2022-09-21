@@ -14,5 +14,7 @@ public interface BookingService {
 	public void deleteBooking(int bookingId);
 	
 	public List<Booking> getAllBooking();
+	
+	public int getSequenceNumber(String sequenceName);
 
 }

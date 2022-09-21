@@ -26,26 +26,26 @@ spring:
   cloud:
     gateway:
       routes:
-      - id : PASSENGER-MANAGEMENET-SERVICE
+      - id : LOGIN-MANAGEMENET-SERVICE
         uri:
          http://localhost:8082/
         predicates:
-        - Path=/passenger/**
+        - Path=/authenticate
         filters:
           - name: CircuitBreaker
             args:
-              name: PASSENGER-MANAGEMENET-SERVICE
-              fallbackuri: forward:/passenger/fallback
-      - id : ADMIN-MANAGEMENT-SERVICE
+              name: LOGIN-MANAGEMENET-SERVICE
+              fallbackuri: forward:/login/fallback
+      - id : USER-MANAGEMENT-SERVICE
         uri:
          http://localhost:8081/
         predicates:
-        - Path=/admin/** ,/authenticate
+        - Path=/user/** 
         filters:
           - name: CircuitBreaker
             args:
-              name: ADMIN-MANAGEMENET-SERVICE
-              fallbackuri: forward:/admin/fallback
+              name: USER-MANAGEMENET-SERVICE
+              fallbackuri: forward:/user/fallback
       - id : TRAIN-MANAGEMENT-SERVICE
         uri:
          http://localhost:8083/

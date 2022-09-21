@@ -25,19 +25,19 @@ import com.ticket.repository.BookingRepository;
 
 @SpringBootTest
 public class BookingServiceTest {
-	
+
 	@InjectMocks
 	private BookingService bookingService = new BookingServiceImpl();
-	
+
 	@Mock
 	private RestTemplate restTemplate;
- 
+
 	@Mock
 	private BookingRepository bookingRepository;
-	
+
 	@Test
 	public void testSaveBooking() {
-		
+
 		Booking booking = new Booking();
 		booking.setBookingId(10);
 		booking.setPassengerName("srinivas");
@@ -46,24 +46,24 @@ public class BookingServiceTest {
 		booking.setDateOfJourney(LocalDate.of(2022, 12, 31));
 		booking.setSeatType("aCChairClass");
 		booking.setTrainId(11);
-		
+
 		Train train = new Train();
 		train.setTrainId(11);
 		train.setTrainName("double-decker");
 		train.setSource("bangalore");
 		train.setDestination("chennai");
-		
+
 		when(bookingRepository.save(booking)).thenReturn(booking);
 		BookingResponse newBooking = bookingService.saveBooking(booking);
 		newBooking.setBooking(booking);
 		newBooking.setTrain(train);
 		assertEquals(booking, newBooking.getBooking());
-		verify(bookingRepository,times(1)).save(booking);
+		verify(bookingRepository, times(1)).save(booking);
 	}
-	
+
 	@Test
 	public void testGetAllBooking() {
-		
+
 		Booking booking = new Booking();
 		booking.setBookingId(10);
 		booking.setPassengerName("srinivas");
@@ -72,7 +72,7 @@ public class BookingServiceTest {
 		booking.setDateOfJourney(LocalDate.of(2022, 12, 31));
 		booking.setSeatType("aCChairClass");
 		booking.setTrainId(11);
-		
+
 		Booking booking1 = new Booking();
 		booking1.setBookingId(10);
 		booking1.setPassengerName("srinivas");
@@ -81,7 +81,7 @@ public class BookingServiceTest {
 		booking1.setDateOfJourney(LocalDate.of(2022, 12, 31));
 		booking1.setSeatType("aCChairClass");
 		booking1.setTrainId(11);
-		
+
 		Booking booking2 = new Booking();
 		booking2.setBookingId(10);
 		booking2.setPassengerName("srinivas");
@@ -90,20 +90,20 @@ public class BookingServiceTest {
 		booking2.setDateOfJourney(LocalDate.of(2022, 12, 31));
 		booking2.setSeatType("aCChairClass");
 		booking2.setTrainId(11);
-		
+
 		List<Booking> allBooking = new ArrayList<>();
 		allBooking.add(booking);
 		allBooking.add(booking1);
 		allBooking.add(booking2);
-		
+
 		when(bookingRepository.findAll()).thenReturn(allBooking);
 		List<Booking> bookings = bookingService.getAllBooking();
 		assertEquals(3, bookings.size());
 	}
-	
+
 	@Test
 	public void testDeleteBooking() {
-		
+
 		Booking booking = new Booking();
 		booking.setBookingId(10);
 		booking.setPassengerName("srinivas");
@@ -112,24 +112,24 @@ public class BookingServiceTest {
 		booking.setDateOfJourney(LocalDate.of(2022, 12, 31));
 		booking.setSeatType("aCChairClass");
 		booking.setTrainId(11);
-		
+
 		Optional<Booking> optionalBooking = Optional.of(booking);
 		when(bookingRepository.findById(10)).thenReturn(optionalBooking);
 		bookingService.deleteBooking(10);
-		verify(bookingRepository,times(1)).findById(10);
-		verify(bookingRepository,times(1)).deleteById(10);
+		verify(bookingRepository, times(1)).findById(10);
+		verify(bookingRepository, times(1)).deleteById(10);
 	}
-	
-	@Test
-    public void testDeleteBookingByIdWithException() {
 
-	 when(bookingRepository.findById(10)).thenThrow(BookingNotFoundException.class);
-	 assertThrows(BookingNotFoundException.class, () -> bookingService.deleteBooking(10));
+	@Test
+	public void testDeleteBookingByIdWithException() {
+
+		when(bookingRepository.findById(10)).thenThrow(BookingNotFoundException.class);
+		assertThrows(BookingNotFoundException.class, () -> bookingService.deleteBooking(10));
 	}
-	
+
 	@Test
 	public void testGetBookingById() {
-		
+
 		Booking booking = new Booking();
 		booking.setBookingId(10);
 		booking.setPassengerName("srinivas");
@@ -138,16 +138,16 @@ public class BookingServiceTest {
 		booking.setDateOfJourney(LocalDate.of(2022, 12, 31));
 		booking.setSeatType("aCChairClass");
 		booking.setTrainId(11);
-		
+
 		Optional<Booking> optionalBooking = Optional.of(booking);
 		when(bookingRepository.findById(10)).thenReturn(optionalBooking);
 		Booking myBooking = bookingService.getBookingById(10);
 		assertEquals("srinivas", myBooking.getPassengerName());
 	}
-	
+
 	@Test
 	public void testGetBookingByIdWithException() {
-		
+
 		when(bookingRepository.findById(10)).thenThrow(BookingNotFoundException.class);
 		assertThrows(BookingNotFoundException.class, () -> bookingService.getBookingById(10));
 	}

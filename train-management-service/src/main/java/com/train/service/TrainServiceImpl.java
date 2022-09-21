@@ -1,16 +1,23 @@
 package com.train.service;
 
+import static org.springframework.data.mongodb.core.FindAndModifyOptions.options;
+
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.train.dto.Fare;
 import com.train.dto.ResponseTemplate;
-import com.train.exception.TrainNameAlreadyExistingException;
 import com.train.exception.TrainNotFoundException;
+import com.train.pojo.DatabaseSequence;
 import com.train.pojo.Train;
 import com.train.repository.TrainRepository;
 
@@ -22,6 +29,8 @@ public class TrainServiceImpl implements TrainService {
 	
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	private MongoOperations mongoOperations;
 
 	@Override
 	public Train saveTrain(Train train) {
@@ -30,6 +39,7 @@ public class TrainServiceImpl implements TrainService {
 //		if(trainByName.getTrainName() == train.getTrainName()) {
 //			throw new TrainNameAlreadyExistingException("Train name already exists");
 //		}
+		train.setTrainId(getSequenceNumber(Train.SEQUENCE_NAME));
 		Train newTrain = trainRepository.save(train); 
 		return newTrain;
 	}
@@ -110,6 +120,15 @@ public class TrainServiceImpl implements TrainService {
 			throw new TrainNotFoundException("No trains found with this route");
 		}
 		return trains;
+	}
+	
+	@Override
+	public int getSequenceNumber(String sequenceName) {
+		
+		Query query = new Query(Criteria.where("id").is(sequenceName));
+		Update update = new Update().inc("seq", 1);
+		DatabaseSequence counter = mongoOperations.findAndModify(query, update, options().returnNew(true).upsert(true), DatabaseSequence.class);
+		return !Objects.isNull(counter)? counter.getSeq():1;
 	}
 
 }

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,19 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ticket.dto.BookingResponse;
 import com.ticket.pojo.Booking;
-import com.ticket.repository.BookingRepository;
 import com.ticket.service.BookingService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class BookingController {
 	
 	Logger logger = LoggerFactory.getLogger(BookingController.class);
 
 	@Autowired
 	private BookingService bookingService;
-
-	@Autowired
-	private BookingRepository bookingRepository;
 
 	@PostMapping("/booking/save")
 	public BookingResponse reserveTicket(@RequestBody Booking booking) {
@@ -37,6 +35,7 @@ public class BookingController {
 
 		return bookingService.saveBooking(booking);
 	}
+	
 
 	@DeleteMapping("/booking/delete/{bookingId}")
 	public ResponseEntity<String> cancelBooking(@PathVariable("bookingId") int bookingId) {
