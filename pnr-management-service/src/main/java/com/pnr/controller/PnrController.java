@@ -49,6 +49,16 @@ public class PnrController {
 
 	}
 	
+	@GetMapping("/pnr/pnrById/{pnrId}")
+	public ResponseEntity<Pnr> getPnrStatusById(@PathVariable("pnrId") int pnrId) {
+		
+		logger.info("PnrStatusById method from Pnr controller is accessed");
+		
+		Pnr pnrById = pnrService.getPnrById(pnrId);
+		ResponseEntity<Pnr> responseEntity = new ResponseEntity<>(pnrById, HttpStatus.OK);
+		return responseEntity;
+	}
+	
 	@DeleteMapping("/pnr/delete/{pnrId}")
 	public ResponseEntity<String> cancelPnr(@PathVariable("pnrId") int pnrId) {
 		

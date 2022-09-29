@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+
 import org.springframework.web.client.RestTemplate;
 
 import com.train.dto.Fare;
@@ -30,6 +31,7 @@ public class TrainServiceImpl implements TrainService {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@Autowired
 	private MongoOperations mongoOperations;
 
 	@Override
@@ -127,8 +129,9 @@ public class TrainServiceImpl implements TrainService {
 		
 		Query query = new Query(Criteria.where("id").is(sequenceName));
 		Update update = new Update().inc("seq", 1);
-		DatabaseSequence counter = mongoOperations.findAndModify(query, update, options().returnNew(true).upsert(true), DatabaseSequence.class);
-		return !Objects.isNull(counter)? counter.getSeq():1;
+		DatabaseSequence counter = mongoOperations.findAndModify(query, update, options().returnNew(true).upsert(true),
+				DatabaseSequence.class);
+		return !Objects.isNull(counter) ? counter.getSeq() : 1;
 	}
 
 }

@@ -3,14 +3,10 @@ package com.pnr.pojo;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "pnr_collection")
 public class Pnr {
-
-//	@Transient
-//	public static final String SEQUENCE_NAME = "pnr_sequence";
 
 	@Id
 	private int pnrId;

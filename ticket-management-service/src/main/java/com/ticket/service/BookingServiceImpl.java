@@ -5,6 +5,7 @@ import static org.springframework.data.mongodb.core.FindAndModifyOptions.options
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -38,6 +39,8 @@ public class BookingServiceImpl implements BookingService {
 
 		BookingResponse bookingResponse = new BookingResponse();
 		booking.setBookingId(getSequenceNumber(Booking.SEQUENCE_NAME));
+		Random random = new Random();
+		booking.setPnrId(random.nextInt(99999999)+100000);
 		Booking newBooking = bookingRepository.save(booking);
 
 		Train train = restTemplate.getForObject("http://TRAIN-MANAGEMENT-SERVICE/train/find/" + booking.getTrainId(),

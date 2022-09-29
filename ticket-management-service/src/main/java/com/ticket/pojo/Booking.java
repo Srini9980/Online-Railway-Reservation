@@ -30,6 +30,7 @@ public class Booking {
 	private String seatType;
 	@NotNull(message = "Train id is required")
 	private int trainId;
+	private int pnrId;
 
 	public int getBookingId() {
 		return bookingId;
@@ -89,6 +90,14 @@ public class Booking {
 
 	public static String getSequenceName() {
 		return SEQUENCE_NAME;
+	}
+
+	public int getPnrId() {
+		return pnrId;
+	}
+
+	public void setPnrId(int pnrId) {
+		this.pnrId = pnrId;
 	}
 
 }

@@ -15,6 +15,6 @@ public interface PnrService {
 	
 	public void deletePnr(int pnrId);
 	
-//	public int getSequenceNumber(String sequenceName);
-
+	public Pnr getPnrById(int pnrId);
+	
 }
