@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
 		User user = userRepository.login(userName, password, role);
 		if (user == null) {
-			throw new AuthenticationFailedException("Username or password are invalid");
+			throw new AuthenticationFailedException("Invalid username or password");
 		}
 		return user;
 	}
@@ -43,17 +43,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User saveUser(User user) {
 
-//		To make the userName unique, we declared the exception on line 37 to 40
-
 		Optional<User> optionalUser = Optional.ofNullable(userRepository.findByUserName(user.getUserName()));
 
 		if (optionalUser.isPresent()) {
-			throw new UserNameAlreadyExistingException("Username already exists with " +"->"+ user.getUserName());
+			throw new UserNameAlreadyExistingException("Username already exists with " + "->" + user.getUserName());
 		}
 
 		Optional<User> userByPhone = userRepository.findByPhone(user.getPhone());
 		if (userByPhone.isPresent()) {
-			throw new PhoneNumberAlreadyExistingException("Phone number already exists " + user.getPhone());
+			throw new PhoneNumberAlreadyExistingException("Phone number already exists " + "->" + user.getPhone());
 		}
 		user.setUserId(getSequenceNumber(User.SEQUENCE_NAME));
 		User newUser = userRepository.save(user);
@@ -87,6 +85,7 @@ public class UserServiceImpl implements UserService {
 		if (optionalUser.isEmpty()) {
 			throw new UserNotFoundException("No user found with this id :" + user.getUserId());
 		}
+
 		User updatedUser = userRepository.save(user);
 		return updatedUser;
 

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import com.fare.exception.FareIdAlreadyExistsException;
 import com.fare.exception.FareNotFoundException;
-import com.fare.pojo.DatabaseSequence;
 import com.fare.pojo.Fare;
 import com.fare.repository.FareRepository;
 
@@ -73,15 +72,15 @@ public class FareServiceImpl implements FareService {
 
 	}
 
-	@Override
-	public int getSequenceNumber(String sequenceName) {
-
-		Query query = new Query(Criteria.where("id").is(sequenceName));
-		Update update = new Update().inc("seq", 1);
-		DatabaseSequence counter = mongoOperations.findAndModify(query, update, options().returnNew(true).upsert(true),
-				DatabaseSequence.class);
-		return !Objects.isNull(counter) ? counter.getSeq() : 1;
-	}
+//	@Override
+//	public int getSequenceNumber(String sequenceName) {
+//
+//		Query query = new Query(Criteria.where("id").is(sequenceName));
+//		Update update = new Update().inc("seq", 1);
+//		DatabaseSequence counter = mongoOperations.findAndModify(query, update, options().returnNew(true).upsert(true),
+//				DatabaseSequence.class);
+//		return !Objects.isNull(counter) ? counter.getSeq() : 1;
+//	}
 
 	@Override
 	public List<Fare> getAllFare() {

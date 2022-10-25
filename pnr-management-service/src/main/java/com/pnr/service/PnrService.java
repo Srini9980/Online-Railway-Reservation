@@ -17,4 +17,6 @@ public interface PnrService {
 	
 	public Pnr getPnrById(int pnrId);
 	
+	public Pnr updatePnr(Pnr pnr);
+	
 }

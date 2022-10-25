@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -75,6 +76,16 @@ public class PnrController {
 		
 		List<Pnr> allPnr = pnrService.getAllPnr();
 		return allPnr;
+	}
+	
+	@PutMapping("/pnr/update")
+	public ResponseEntity<Pnr> updatePnr(@RequestBody Pnr pnr) {
+		
+		logger.info("updatePnr method from Pnr controller is accessed");
+		
+		Pnr updatedPnr = pnrService.updatePnr(pnr);
+		ResponseEntity<Pnr> responseEntity = new ResponseEntity<>(updatedPnr, HttpStatus.OK);
+		return responseEntity;
 	}
 
 }

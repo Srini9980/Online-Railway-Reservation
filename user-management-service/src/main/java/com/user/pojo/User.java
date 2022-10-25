@@ -9,7 +9,7 @@ public class User {
 
 	@Transient
 	public static final String SEQUENCE_NAME = "user_sequence";
-	
+
 	@Id
 	private int userId;
 	private String firstName;
@@ -116,4 +116,3 @@ public class User {
 	}
 
 }
-

@@ -12,6 +12,8 @@ public class Pnr {
 	private int pnrId;
 	@NotNull(message = "PNR status is required")
 	private String pnrStatus;
+	@NotNull(message = "Seat number cannot be empty")
+	private String seatNo;
 	@NotNull(message = "Booking is required")
 	private int bookingId;
 	@NotNull(message = "Train id is required")
@@ -49,8 +51,12 @@ public class Pnr {
 		this.trainId = trainId;
 	}
 
-//	public static String getSequenceName() {
-//		return SEQUENCE_NAME;
-//	}
+	public String getSeatNo() {
+		return seatNo;
+	}
+
+	public void setSetNo(String setNo) {
+		this.seatNo = setNo;
+	}
 
 }

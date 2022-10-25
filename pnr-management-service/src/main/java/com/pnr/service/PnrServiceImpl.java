@@ -91,4 +91,15 @@ public class PnrServiceImpl implements PnrService {
 	   return pnrById;
 	}
 
+	@Override
+	public Pnr updatePnr(Pnr pnr) {
+		
+		Optional<Pnr> optionalPnr = pnrRepository.findById(pnr.getPnrId());
+		if(optionalPnr.isEmpty()) {
+			throw new PnrNotFoundException("No PNR found with this id : " + pnr.getPnrId()); 
+		}
+		Pnr updatedPnr = pnrRepository.save(pnr);
+		return updatedPnr;
+	}
+
 }

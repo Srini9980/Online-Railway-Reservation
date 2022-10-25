@@ -16,6 +16,6 @@ public interface FareService {
 	
 	public List<Fare> getAllFare();
 	
-	public int getSequenceNumber(String sequenceName);
+//	public int getSequenceNumber(String sequenceName);
 
 }
